@@ -93,6 +93,7 @@ namespace ThoughtWorks.CruiseControl.Core.Config
         private QueueDuplicateHandlingMode handlingMode = QueueDuplicateHandlingMode.UseFirst;
         private string lockQueueNames;
 		private int maxSize = int.MaxValue;
+		private string preEnQueueValidationUrl;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultQueueConfiguration"/> class.
@@ -143,6 +144,17 @@ namespace ThoughtWorks.CruiseControl.Core.Config
         {
             get { return lockQueueNames; }
             set { lockQueueNames = value; }
+        }
+		
+		/// <summary>
+        /// URL to hit prior to enqueuing; if it returns a 200 the enqueue succeeds
+        /// </summary>
+        /// <default>none</default>
+		[ReflectorProperty("preenqueuevalidationurl", Required = false)]
+        public virtual string PreEnQueueValidationUrl
+        {
+            get { return preEnQueueValidationUrl; }
+            set { preEnQueueValidationUrl = value; }
         }
 		
 		/// <summary>

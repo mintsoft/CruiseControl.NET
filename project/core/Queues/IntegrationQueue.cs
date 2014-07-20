@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Collections;
 using System.Collections.Generic;
 using ThoughtWorks.CruiseControl.Core.Config;
@@ -85,6 +86,20 @@ namespace ThoughtWorks.CruiseControl.Core.Queues
 		{
 			lock (this)
 			{
+				if(!string.IsNullOrWhiteSpace(configuration.PreEnQueueValidationUrl))
+				{
+					try 
+					{
+						var webClient = new WebClient();
+						webClient.DownloadString(configuration.PreEnQueueValidationUrl);
+					}
+					catch (WebException e)
+					{
+						var response = (System.Net.HttpWebResponse)e.Response; 
+						throw new ConfigurationException(string.Format("Project '{0}' cannot be added to queue '{1}' as the validation URL returned a non-200 status code: '{2}'", integrationQueueItem.Project.Name, Name, response.StatusCode));
+					}
+				}
+			
 				if (Count == 0)
 				{
 					// We can start integration straight away as first in first served

@@ -27,6 +27,11 @@ namespace ThoughtWorks.CruiseControl.Core.Config
         /// </summary>
         int MaxSize { get; set; }
 
+		/// <summary>
+        /// URL to hit prior to enqueuing a project
+        /// </summary>
+		string PreEnQueueValidationUrl { get; set; }
+		
         /// <summary>
         /// Gets or sets the projects.
         /// </summary>
